@@ -1,0 +1,129 @@
+{
+    "info": {
+      "name": "Course Backend API",
+      "_postman_id": "d9b1c8f3-4e4a-4b9a-8a9f-1234567890ab",
+      "description": "Postman collection for Course Backend API with CRUD operations.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Create a New Course",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "name": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"titleImgUrl\": \"https://example.com/image.jpg\",\n    \"courseName\": \"Full Stack Development\",\n    \"amount\": 299,\n    \"duration\": \"12 weeks\",\n    \"level\": \"Intermediate\",\n    \"numberOfSessions\": 24,\n    \"channelLink\": \"https://youtube.com/channel/example\",\n    \"videos\": [\n        {\n            \"videoUrl\": \"https://youtube.com/video1\",\n            \"videoTitle\": \"Introduction to Full Stack\",\n            \"videoDuration\": \"10:00\",\n            \"videoTagLine\": \"Kickstart your journey\"\n        },\n        {\n            \"videoUrl\": \"https://youtube.com/video2\",\n            \"videoTitle\": \"Backend Development with Node.js\",\n            \"videoDuration\": \"15:30\",\n            \"videoTagLine\": \"Build robust APIs\"\n        }\n    ],\n    \"courseDescription\": \"Learn full stack development from scratch...\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5069/api/courses",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5069",
+            "path": ["api", "courses"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get All Courses",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5069/api/courses",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5069",
+            "path": ["api", "courses"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get a Single Course by ID",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5069/api/courses/{{course_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5069",
+            "path": ["api", "courses", "{{course_id}}"],
+            "variable": [
+              {
+                "key": "course_id",
+                "value": "<replace_with_course_id>",
+                "description": "Replace <replace_with_course_id> with the actual Course ID."
+              }
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Update a Course by ID",
+        "request": {
+          "method": "PATCH",
+          "header": [
+            {
+              "key": "Content-Type",
+              "name": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n    \"amount\": 349,\n    \"duration\": \"14 weeks\"\n}"
+          },
+          "url": {
+            "raw": "http://localhost:5069/api/courses/{{course_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5069",
+            "path": ["api", "courses", "{{course_id}}"],
+            "variable": [
+              {
+                "key": "course_id",
+                "value": "<replace_with_course_id>",
+                "description": "Replace <replace_with_course_id> with the actual Course ID."
+              }
+            ]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Delete a Course by ID",
+        "request": {
+          "method": "DELETE",
+          "header": [],
+          "url": {
+            "raw": "http://localhost:5069/api/courses/{{course_id}}",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "5069",
+            "path": ["api", "courses", "{{course_id}}"],
+            "variable": [
+              {
+                "key": "course_id",
+                "value": "<replace_with_course_id>",
+                "description": "Replace <replace_with_course_id> with the actual Course ID."
+              }
+            ]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  
