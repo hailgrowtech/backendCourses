@@ -15,8 +15,11 @@ exports.createCourse = async (req,res) => {
             channelLink,
             videos,
             courseDescription,
+            expertId,
+            active,
         } = req.body;
 
+      
 
         const course = new Course({
             imagePath,
@@ -28,7 +31,10 @@ exports.createCourse = async (req,res) => {
             channelLink,
             videos,
             courseDescription,
+            expertId,
+            active,
         });
+
 
 
         const savedCourse = await course.save();
@@ -67,19 +73,42 @@ exports.getCourseById = async (req,res) =>{
     }
 };
 
+exports.getCoursesByExpertId = async(req,res) =>{
+    try{
+        const {expertId} = req.params;
+        console.log(expertId);
+        const courses = await Course.find({expertId:expertId});
+        console.log('courses Found' , courses);
+
+        res.status(200).json(courses);
+    } catch (error){[
+        res.status(500).json({message:error.message}),
+    ]}
+}
 
 // get a single course byId
 
-exports.updateCourse = async (req,res) =>{
+exports.updateCourse = async(req,res) =>{
     try{
-        const updateCourse = await course.findByIdAndUpdate(req.params.id , req.body, {new:true, runValidators:true});
-        if(!updatedCourse)
-            return res.status(404).json({message:'course does not exist'})
-        res.json(updateCourse);
+        if(Object.keys(req.body).length === 0){
+            return res.status(400).json({message:'No Fields provided to Update'});
+        }
 
+        const updateCourse = await Course.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            {
+                new:true, runValidators:true
+            }
+        );
 
-    } catch(error){
-        res.status(400).json({message: error.message});
+        if(!updatedCourse){
+            return res.status(404).json({message:'Course Does not Exist'})
+        }
+
+        res.status(200).json(updatedCourse);
+    } catch (error) {
+        res.status(400).json({message:error.message});
     }
 };
 
@@ -94,5 +123,33 @@ exports.deleteCourse = async (req,res) =>{
         res.json({message:'course Deleted Successfully'});
     } catch (error){
         res.status(500).json({message:error.message});
+    }
+};
+
+
+// adding user to course
+
+exports.addUserToCourse = async (req,res) =>{
+    try{
+        const {courseId} = req.params;
+        const{userId,userName} = req.body;
+        const course = await Course.findById(courseId);
+
+        if(!course) return res.status(404).json({message:'Course Not Found'});
+
+        const userExists = course.users.some(
+            (user) => user.userId === userId
+        );
+
+        if(userExists){
+            return res.status(400).json({message:'User already enrolled in this course'});
+        }
+
+        course.users.push({userId, userName});
+        await course.save();
+
+        res.status(200).json({message:'User added to the course successfully'});
+    } catch (error){
+        res.status(500).json({message: error.message});
     }
 };
